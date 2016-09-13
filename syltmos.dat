@@ -1,0 +1,17 @@
+param AntalTimmar := 40;
+
+set RÅVARA	:= Lingonsylt Äppelmos;
+set BURK	:= Stor Liten;
+
+param :	BurkKostnad   Innehåll	BurkTimme :=
+Stor         4          1.5       350
+Liten        2          0.8       650     ;
+
+param FPris:	Stor 	Liten := 
+Lingonsylt	 20	 15
+Äppelmos         21	 13   ;
+
+param		Tillgång :=
+Lingonsylt	 20000
+Äppelmos    	 25000   ;
+

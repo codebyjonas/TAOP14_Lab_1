@@ -1,0 +1,87 @@
+#------------------------------------------------------------------------------
+# Kommandofil: LPproblem.run
+#------------------------------------------------------------------------------
+#
+# Denna fil är en allmän kommandofil för LP-problem. Det som behöver ändras
+# är namnet på modellfilen, datafilen samt resultatfilen.
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# OPTIONS
+#------------------------------------------------------------------------------
+
+reset;                  			# Nollställer
+option solver cplexamp;    			# Val av lösare.
+option presolve 0;				# Stäng av presolve
+option cplex_options 'sensitivity';		# Känslighetsanalys från CPLEX
+option display_eps 1e-6;			# Skriver ut små tal som 0
+#option display_round 2;			# Skriver ut med 2 decimaler
+option display_width 150;			# Ökar textbredden
+
+
+#------------------------------------------------------------------------------
+# MODELLFIL och DATAFIL  (byt ut namn.mod samt namn.dat mot era egna filer)
+#------------------------------------------------------------------------------
+
+model papper.mod;				# Läser in modellfilen
+#data  namn.dat;				# Läser in datafilen
+
+
+#------------------------------------------------------------------------------
+# LÖSER PROBLEM, UTSKRIFT I TERMINALEN
+#------------------------------------------------------------------------------
+
+solve;						# Löser problemet
+
+display _objname, _obj; 			# Skriver ut målfunktionsvärdet
+display _varname, _var;				# Variabelnamn, variabelvärde
+display _conname, _con.slack;			# Bivillkor och slackvariabler
+
+#display x;					# Special för 3:e uppgiften,
+#display L;					# prova att kommentera bort.
+
+
+
+#------------------------------------------------------------------------------
+# KONTROLL AV CPLEX SOLVER EXIT CODE by Nisse Q.
+#------------------------------------------------------------------------------
+
+printf "Solver exit code: %3i\n", solve_result_num;
+printf "#--------------------------#\n";
+if solve_result_num >=   0  and  solve_result_num <=   4  then  printf "#   EVERYTHING OK!!        #\n";
+if solve_result_num >= 200  and  solve_result_num <= 220  then  printf "#   INFEASIBLE!!           #\n";
+if solve_result_num >= 300  and  solve_result_num <= 320  then  printf "#   UNBOUNDED PROBLEM!!    #\n";
+if solve_result_num >= 540  and  solve_result_num <= 560  then  printf "#   NON-LINEAR PROBLEM!!   #\n";
+printf "#--------------------------#\n";
+if solve_result_num  >   4  then  exit;
+
+#------------------------------------------------------------------------------
+
+
+
+
+#------------------------------------------------------------------------------
+# UTSKRIFT AV RESULTAT TILL FILEN "namn.res"  (byt gärna filnamn)
+#------------------------------------------------------------------------------
+
+display _objname, _obj	> namn.res;		# Målfunktionsvärdet
+
+option display_round "";			# Sätt display_round till "default".
+#------------------------------------------------------------------------------
+# Skriver ut variabelnamn, variabelvärde, reducerad kostnad, nuvarande 
+# målfunktionskoefficent samt vad den kan ändras till utan att basen byts.
+#------------------------------------------------------------------------------
+
+display _varname, _var, _var.rc, _var.down, 	# Variabler, reducerad kostnad,
+_var.current, _var.up	> namn.res;		# intervall för målfunkt.koeff.
+
+
+#------------------------------------------------------------------------------
+# Skriver ut villkorsnamn, slack, skuggpris, nuvarande högerledskoefficent 
+# samt vad den kan ändras till utan att basen byts.
+#------------------------------------------------------------------------------
+
+display _conname, _con.slack, _con.dual, 	# Bivillkor, slack, skuggpris,
+_con.down, _con.current, _con.up  > namn.res;	# intervall för högerledskoeff.
+
+

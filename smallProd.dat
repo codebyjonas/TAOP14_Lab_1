@@ -1,0 +1,42 @@
+#-----------------------------------------------------------------------------
+# Datafil till Klädproduktion - SMALL   (smallProd.dat)
+#-----------------------------------------------------------------------------
+
+param T		:=   2;
+
+param MaxLager	:= 240;
+param Garanti	:=  30;
+
+
+set PLAGG 	:= BYXA  TROJA  KAVAJ;
+set RESURS	:= TYG1  SYTID;
+
+
+param : 	    Lagerplats	InitLager  := 
+BYXA   			1.50	   0
+TROJA			0.95	   0
+KAVAJ   		2.20	   0	   ;
+
+
+param	Kostnad : 	   1 	   2   	:=  
+BYXA            	  60  	  75  
+TROJA           	  50  	  40 
+KAVAJ			 100	  75 	;
+
+
+param	Tillgang :	   1 	   2   	:=
+TYG1   		  	1900	1800  
+SYTID		  	2400	2500 	;
+
+
+param	Efterfragan : 	   1 	   2   	:=  
+BYXA            	 100  	 200  
+TROJA           	 200  	 400 
+KAVAJ			 200	 300 	;
+
+
+param	Atgang : 	TYG1	SYTID 	:=  
+BYXA            	  3  	  3  
+TROJA           	  2  	  3 
+KAVAJ			  2	  4 	;
+
