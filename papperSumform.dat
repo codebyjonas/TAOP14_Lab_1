@@ -1,5 +1,5 @@
 set LAGER  := VIMMERBY STOCKHOLM;
-set KUNDER := LiTH CTH LTH ;
+set KUNDER := LiTH CTH LTH KTH;
 
 param s  := 
 VIMMERBY  110
@@ -8,9 +8,10 @@ STOCKHOLM 120;
 param d := 
 LiTH 80
 CTH  70
-LTH  60;
+LTH  60
+KTH  20;
 
-param c :  LiTH CTH LTH :=
-VIMMERBY    6    7   8  
-STOCKHOLM   5    8   6;
+param c :  LiTH CTH LTH KTH:=
+VIMMERBY    6    7   8   5
+STOCKHOLM   5    8   6   2;
 
